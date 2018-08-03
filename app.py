@@ -1,8 +1,19 @@
-import os
-from flask import Flask
+import os, json
+from flask import Flask, request
 
 def hello(path=None):
-    return 'Hello from /%s!' % (path or '')
+    req = json.dumps({
+        'method': request.method,
+        'url': request.url,
+        'headers': request.headers.to_list(),
+        'path': request.path,
+        'args': request.args,
+        'form': request.form,
+        'data': request.data.decode("utf-8"),
+    })
+
+    print(req)
+    return req
 
 def toInt(num):
     try:
